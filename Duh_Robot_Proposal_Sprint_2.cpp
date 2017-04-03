@@ -84,10 +84,10 @@ class Robot_model {
   Robot_part locomotor;
   Robot_part arm;
   Robot_part battery;
-  //vector<Robot_part> Robot_parts;
+  
  
  public:
-  //void add_robot_part(Robot_part part) {Robot_parts.push_back(part);} ;
+  Robot_model(Robot_part _head, Robot_part _torso, Robot_part _battery, Robot_part _locomotor, Robot_part _arm) : head{_head}, torso{_torso}, battery{_battery}, locomotor{_locomotor}, arm{_arm} {}
   void robot_info();
   double cost();
   double max_speed();
@@ -103,8 +103,6 @@ class Shop {
   void create_new_order();
  private:
   //Order order;
-  //Robot_part robot_part;
-  //Robot_model robot_model;
   //Customer customer;
   //Sales_associate sales_associate;
   vector<Robot_part> parts;
@@ -116,15 +114,16 @@ class Shop {
 class Controller {
   public:
     //Controller();
-    void execute();	
+    void execute();
+    void create_new_robot_model();	
     //void execute_cmd(int cmd);
   private:
    Shop shop;
+   
   
 };
 
-void Controller::execute() { 
-
+void Controller::execute() {
 
 shop.create_new_robot_part(Head("Head",1,1.00,"lol"));
 shop.create_new_robot_part(Torso("Torso",1,1.00,"lol"));
@@ -134,8 +133,14 @@ shop.create_new_robot_part(Arm("Arm",1,1.00,"lol"));
 
 }
 
-
-
+void Controller::create_new_robot_model() {
+Head head("Head",1,1.00,"lol");
+Torso torso("Torso",1,1.00,"lol");
+Battery battery("Battery",1,1.00,"lol");
+Locomotor locomotor("Locomotor",1,1.00,"lol");
+Arm arm("Arm",1,1.00,"lol");
+Robot_model robot_model(head, torso, battery, locomotor, arm);
+}
 
 int main() {
 Controller controller;
