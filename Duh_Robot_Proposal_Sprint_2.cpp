@@ -75,7 +75,7 @@ class Robot_model {
   
  
  public:
-  Robot_model(Robot_part _head, Robot_part _torso, Robot_part _battery, Robot_part _locomotor, Robot_part _arm) : head{_head}, torso{_torso}, battery{_battery}, locomotor{_locomotor}, arm{_arm} {}
+  Robot_model(Robot_part _head, Robot_part _torso, Robot_part _battery, Robot_part _locomotor, Robot_part _arm, string _name, int mod_num) : head{_head}, torso{_torso}, battery{_battery}, locomotor{_locomotor}, arm{_arm}, name{_name}, model_number{mod_num} {}
   void robot_info();
   double cost();
   double max_speed();
@@ -249,7 +249,7 @@ while(get_out != 0) {
 
    cost = 1000;
    cout << "Cost for all custom arms is $" << cost << "each NON-NEGOTIABLE\n";
-   shop.create_new_robot_part(Locomotor(name,model_number,cost,description,power));
+   shop.create_new_robot_part(Arm(name,model_number,cost,description,power));
    cout << "Successfully created " << name <<'\n';
    break;
    
@@ -262,23 +262,142 @@ while(get_out != 0) {
     cout<<"\nWould you like to continue adding parts?\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
    cin >> get_out;
 }
-
-
-shop.create_new_robot_part(Torso("Torso",1,1.00,"lol",1,1));
-shop.create_new_robot_part(Battery("Battery",1,1.00,"lol",1.0,1.0));
-shop.create_new_robot_part(Locomotor("Locomotor",1,1.00,"lol",1.0));
-shop.create_new_robot_part(Arm("Arm",1,1.00,"lol",1.0));
-
+//end of loop
 }
 
 void Controller::create_new_robot_model() {
+string name, input;
+int model_number, bat_compart, num_arms, get_out = 1; //get_out is 1 to get to every statement
+double cost, power,max_energy;
+string description;
+
 Head head("Head",1,1.00,"lol",1.0);
-Torso torso("Torso",1,1.00,"lol",1,1);
+Torso torso("Torso",1,1.00,"lol",1,1);			///Initialized so no errors arise
 Battery battery("Battery",1,1.00,"lol",1.0,1.0);
 Locomotor locomotor("Locomotor",1,1.00,"lol",1.0);
 Arm arm("Arm",1,1.00,"lol",1.0);
-Robot_model robot_model(head, torso, battery, locomotor, arm);
-shop.create_new_robot_model(robot_model);
+
+
+while(get_out != 0) {
+ switch(get_out) {
+  case(1): {
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter the name of the head: ";
+   getline(cin,name);
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "How much power do you want your head to have?\n";
+   cin >> power;
+   cin.ignore();
+   
+   cost = 1000;
+   cout << "Cost for all custom heads is $" << cost << " NON-NEGOTIABLE\n";
+   head = Head(name,model_number,cost,description,power);
+   cout << "Successfully created " << name <<'\n';
+   }
+  case(2): {
+   cout << "Enter the name of the torso: ";
+   getline(cin,name);
+
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "How many arms do you want your robot to have?\n";
+   cin >> num_arms;
+   cin.ignore();
+
+   cout << "How many battery compartments do you want your robot to have?\n";
+   cin >> bat_compart;
+   cin.ignore();
+
+   cost = 2000;
+   cout << "Cost for all custom torsos is $" << cost << " NON-NEGOTIABLE\n";
+   torso = Torso(name,model_number,cost,description,bat_compart,num_arms);
+   cout << "Successfully created " << name <<'\n';
+  }
+  case(3): {
+   cout << "Enter the name of the battery: ";
+   getline(cin,name);
+
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "How much power do you want your battery to have?\n";
+   cin >> power;
+   cin.ignore();
+
+   cout << "What is the max energy you want to put on your battery?\n";
+   cin >> max_energy;
+   cin.ignore();
+
+   cost = 1000;
+   cout << "Cost for all custom batteries is $" << cost << " NON-NEGOTIABLE\n";
+   battery = Battery(name,model_number,cost,description,power,max_energy);
+   cout << "Successfully created " << name <<'\n';
+  }
+  case(4): {
+   cout << "Enter the name of the locomotor: ";
+   getline(cin,name);
+
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "What is the max power you want to put on your locomotor?\n";
+   cin >> power;
+   cin.ignore();
+
+   cost = 3000;
+   cout << "Cost for all custom locomotors is $" << cost << " NON-NEGOTIABLE\n";
+   locomotor = Locomotor(name,model_number,cost,description,power);
+   cout << "Successfully created " << name <<'\n';
+  }
+  case(5): {
+   cout << "Enter the name of the arms: ";
+   getline(cin,name);
+
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "What is the max power you want to put on your arms?\n";
+   cin >> power;
+   cin.ignore();
+
+   cost = 1000;
+   cout << "Cost for all custom arms is $" << cost << "each NON-NEGOTIABLE\n";
+   arm = Arm(name,model_number,cost,description,power);
+   cout << "Successfully created " << name <<'\n';
+
+  }
+  default: {
+   Robot_model robot_model(head, torso, battery, locomotor, arm);
+   shop.create_new_robot_model(robot_model);
+   cout<<"\nWould you like to continue adding models?\n\n(0) quit\n(1) continue\n";
+   cin >> get_out;
+  }
+ }
+}
+
 }
 
 int main() {
