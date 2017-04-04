@@ -103,14 +103,15 @@ class Controller {
   public:
     void execute(); //kind of like a view class
     void create_new_robot_model();
-    void create_new_robot_parts();	
+    void create_new_robot_parts();
+    void pre_defined_models();	
   private:
    Shop shop;
 };
 
 void Controller::execute() {
  int choice;
- cout << "What would you like to do?\n\n"<<"(0) Create new robot parts" <<'\n'<< "(1) Create new robot model\n" << "Option: ";
+ cout << "What would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "Option: ";
  cin >> choice;
 
  if (choice == 0) {
@@ -121,11 +122,55 @@ void Controller::execute() {
   create_new_robot_model();
  }
  
+ else if(choice == 2) {
+  pre_defined_models();
+ }
  else {
   cout << "Invalid input\n" << "Exiting Program...\n";
   exit(0);
  }
- }
+}
+
+void Controller::pre_defined_models() {
+int choice;
+
+Head head1("Basic Head",100,100.00,"basic bot",50.0);
+Torso torso1("Basic Torso",100,100.00,"basicbot",2,1);			
+Battery battery1("Basic Battery",100,100.00,"basic bot",50.0,100.0);
+Locomotor locomotor1("Basic Locomotor",100,100.00,"basic bot",50.0);
+Arm arm1("Basic Arm",100,100.00,"basic bot",50.0);
+
+Head head2("Advanced Head",200,1000.00,"advanced bot",250.0);
+Torso torso2("Advanced Torso",200,1000.00,"advanced bot",5,2);			
+Battery battery2("Advanced Battery",200,1000.00,"advanced bot",250.0,450.0);
+Locomotor locomotor2("Advanced Locomotor",200,1000.00,"advanced bot",250.0);
+Arm arm2("Advanced Arm",200,1000.00,"advanced bot",250.0);
+
+Head head3("Deluxe Head",300,10000.00,"Deluxe bot",500.0);
+Torso torso3("Deluxe Torso",300,10000.00,"Deluxe bot",10,4);			
+Battery battery3("Deluxe Battery",300,10000.00,"Deluxe bot",500.0,750.0);
+Locomotor locomotor3("Deluxe Locomotor",300,10000.00,"Deluxe bot",500.0);
+Arm arm3("Deluxe Arm",300,10000.00,"Deluxe bot",500.0);
+
+cout << "Which robot would you like?\n(0)Basic Bot\n(1)Advanced Bot\n(2)Deluxe Bot\n";
+cin >> choice;
+
+if(choice == 0) {
+Robot_model bbot(head1, torso1, battery1, locomotor1, arm1,"Basic bot",1);
+cout << "Successfully Chosen Basic bot.\n";
+}
+
+else if(choice == 1) {
+Robot_model abot(head2, torso2, battery2, locomotor2, arm2,"Advanced bot",2);
+cout << "Successfully Chosen Advanced bot.\n";
+}
+
+else if(choice == 2) {
+Robot_model dbot(head3, torso3, battery3, locomotor3, arm3,"Deluxe bot",3);
+cout << "Successfully Chosen Deluxe bot.\n";
+}
+ 
+}
 
 void Controller::create_new_robot_parts() {
 string name, input;
