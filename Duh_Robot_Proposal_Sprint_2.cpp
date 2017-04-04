@@ -120,7 +120,7 @@ class Controller {
 
 void Controller::execute() {
  int choice;
- cout << "What would you like to do?\n\n"<<"(0) Create new robot parts" <<'\n'<< "(1) Create new robot model\n";
+ cout << "What would you like to do?\n\n"<<"(0) Create new robot parts" <<'\n'<< "(1) Create new robot model\n" << "Option: ";
  cin >> choice;
 
  if (choice == 0) {
@@ -140,17 +140,54 @@ void Controller::execute() {
 void Controller::create_new_robot_parts() {
 string name, input;
 int model_number, get_out; //get_out is to break the loop
-
-double cost;
+double cost, power;
 string description;
-cout << "\n\n (0) quit\n (1) head\n (2) torso\n (3) battery\n (4) locomotor\n (5) arm\n Enter one of the choices: ";
+
+cout << "\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
 cin >> get_out;
 while(get_out != 0) {
+ cin.ignore(); //consumes \n
+
  switch(get_out) {
   case(1): {
+   cout << "Enter the name of the head: ";
+   getline(cin,name);
+
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "How much power do you want your head to have?\n";
+   cin >> power;
+   cin.ignore();
    
+   cost = 100;
+   cout << "Cost for all custom heads is $" << cost << " NON-NEGOTIABLE\n";
+   shop.create_new_robot_part(Head(name,model_number,cost,description,power));
+   cout << "Successfully created " << name <<'\n';
   }
   case(2): {
+   cout << "Enter the name of the head: ";
+   getline(cin,name);
+
+   cout << "Enter the desired model number: ";
+   cin >> model_number;
+   cin.ignore();
+
+   cout << "Enter a description of the part: ";
+   getline(cin,description);
+
+   cout << "How much power do you want your head to have?\n";
+   cin >> power;
+   cin.ignore();
+   
+   cost = 100;
+   cout << "Cost for all custom heads is $" << cost << " NON-NEGOTIABLE\n";
+   shop.create_new_robot_part(Head(name,model_number,cost,description,power));
+   cout << "Successfully created " << name <<'\n';
   
   }
   case(3): {
@@ -163,13 +200,14 @@ while(get_out != 0) {
 
   }
   default: {
-   cout<<"\nWould you like to continue adding parts?\n\n (0) quit\n (1) head\n (2) torso\n (3) battery\n (4) locomotor\n (5) arm\n Enter one of the choices: ";
+   cout<<"\nWould you like to continue adding parts?\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
    cin >> get_out;
+   cin.ignore();
   }
  }
 }
 
-shop.create_new_robot_part(Head("Head",1,1.00,"lol",1.0));
+
 shop.create_new_robot_part(Torso("Torso",1,1.00,"lol"));
 shop.create_new_robot_part(Battery("Battery",1,1.00,"lol"));
 shop.create_new_robot_part(Locomotor("Locomotor",1,1.00,"lol"));
