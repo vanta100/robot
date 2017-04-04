@@ -281,14 +281,14 @@ Arm arm("Arm",1,1.00,"lol",1.0);
 while(get_out != 0) {
  switch(get_out) {
   case(1): {
-   cout << "Enter the desired model number: ";
+   cout << "Enter the desired model number for the head: ";
    cin >> model_number;
    cin.ignore();
 
    cout << "Enter the name of the head: ";
    getline(cin,name);
 
-   cout << "Enter a description of the part: ";
+   cout << "Enter a description of the head: ";
    getline(cin,description);
 
    cout << "How much power do you want your head to have?\n";
@@ -301,14 +301,14 @@ while(get_out != 0) {
    cout << "Successfully created " << name <<'\n';
    }
   case(2): {
-   cout << "Enter the name of the torso: ";
+   cout << "\nEnter the name of the torso: ";
    getline(cin,name);
 
-   cout << "Enter the desired model number: ";
+   cout << "Enter the desired model number for the torso: ";
    cin >> model_number;
    cin.ignore();
 
-   cout << "Enter a description of the part: ";
+   cout << "Enter a description of the torso: ";
    getline(cin,description);
 
    cout << "How many arms do you want your robot to have?\n";
@@ -325,14 +325,14 @@ while(get_out != 0) {
    cout << "Successfully created " << name <<'\n';
   }
   case(3): {
-   cout << "Enter the name of the battery: ";
+   cout << "\nEnter the name of the battery: ";
    getline(cin,name);
 
-   cout << "Enter the desired model number: ";
+   cout << "Enter the desired model number for your battery: ";
    cin >> model_number;
    cin.ignore();
 
-   cout << "Enter a description of the part: ";
+   cout << "Enter a description of the battery: ";
    getline(cin,description);
 
    cout << "How much power do you want your battery to have?\n";
@@ -349,14 +349,14 @@ while(get_out != 0) {
    cout << "Successfully created " << name <<'\n';
   }
   case(4): {
-   cout << "Enter the name of the locomotor: ";
+   cout << "\nEnter the name of the locomotor: ";
    getline(cin,name);
 
-   cout << "Enter the desired model number: ";
+   cout << "Enter the desired model number for the locomotor: ";
    cin >> model_number;
    cin.ignore();
 
-   cout << "Enter a description of the part: ";
+   cout << "Enter a description of the locomotor: ";
    getline(cin,description);
 
    cout << "What is the max power you want to put on your locomotor?\n";
@@ -369,14 +369,14 @@ while(get_out != 0) {
    cout << "Successfully created " << name <<'\n';
   }
   case(5): {
-   cout << "Enter the name of the arms: ";
+   cout << "\nEnter the name of the arms: ";
    getline(cin,name);
 
-   cout << "Enter the desired model number: ";
+   cout << "Enter the desired model numbe for the arms: ";
    cin >> model_number;
    cin.ignore();
 
-   cout << "Enter a description of the part: ";
+   cout << "Enter a description of the arms: ";
    getline(cin,description);
 
    cout << "What is the max power you want to put on your arms?\n";
@@ -390,8 +390,16 @@ while(get_out != 0) {
 
   }
   default: {
-   Robot_model robot_model(head, torso, battery, locomotor, arm);
+   cout << "\nWhat is the model_number of this robot?";
+   cin >> model_number;
+   cin.ignore();
+ 
+   cout << "What is the name of this robot?";
+   getline(cin,name);
+
+   Robot_model robot_model(head, torso, battery, locomotor, arm,name,model_number);
    shop.create_new_robot_model(robot_model);
+   cout << "Successfully created robot.\n";
    cout<<"\nWould you like to continue adding models?\n\n(0) quit\n(1) continue\n";
    cin >> get_out;
   }
