@@ -63,6 +63,10 @@ class Arm : public Robot_part {
 
 };
 
+///
+/// Robot Model
+///
+
 class Robot_model {
  private:
   string name;
@@ -81,6 +85,37 @@ class Robot_model {
   double max_speed();
   double max_battery_life();
 };
+
+class Customer {
+ private:
+  string name;
+  int customer_number;
+  string phone_number;
+  string email_address;
+};
+
+class Sales_associate {
+  private:
+   string name;
+   int employee_number;
+};
+
+class Order {
+ private:
+  int order_number;
+  string date;
+  Customer customer;
+  Sales_associate sales_associate;
+  Robot_model rbot_model;
+  int status;
+ public:
+  double robot_cost();
+};
+  
+
+///
+/// shop
+///
 
 class Shop { 
  public:
@@ -456,7 +491,6 @@ while(get_out != 0) {
 int main() {
 Controller controller;
 controller.execute();
-
 }
 
 
