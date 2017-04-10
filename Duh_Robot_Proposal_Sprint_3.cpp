@@ -92,12 +92,16 @@ class Customer {
   int customer_number;
   string phone_number;
   string email_address;
+ public:
+  Customer(string nam, int cust_num, string pho_num, string em_add): name{nam}, customer_number{cust_num}, phone_number{pho_num}, email_address{em_add} {}
 };
 
 class Sales_associate {
   private:
    string name;
    int employee_number;
+  public:
+   Sales_associate(string nam, int cust_num): name{nam}, employee_number{cust_num} {}
 };
 
 class Order {
@@ -106,9 +110,9 @@ class Order {
   string date;
   Customer customer;
   Sales_associate sales_associate;
-  Robot_model rbot_model;
   int status;
  public:
+  Order(int o_num, string dat, Customer cust, Sales_associate sales, int stat): order_number{o_num}, date{dat}, customer{cust}, sales_associate{sales}, status{stat} {}
   double robot_cost();
 };
   
@@ -121,11 +125,11 @@ class Shop {
  public:
   void create_new_robot_part(Robot_part part) { parts.push_back(part);}
   void create_new_robot_model(Robot_model model) {models.push_back(model);}
-  void create_new_customer();
+  void create_new_customer() ;
   void create_new_sales_associate();
   void create_new_order();
  private:
-  //Order order;					Things commented out at this point are not being used for this sprint
+  //Order order;
   //Customer customer;
   //Sales_associate sales_associate;                         
   vector<Robot_part> parts;
@@ -135,13 +139,14 @@ class Shop {
   
 
 class Controller {
+  private:
+   Shop shop;
   public:
     void execute(); //kind of like a view class
     void create_new_robot_model();
     void create_new_robot_parts();
     void pre_defined_models();	
-  private:
-   Shop shop;
+
 };
 
 void Controller::execute() {
