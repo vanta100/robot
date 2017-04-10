@@ -126,7 +126,7 @@ class Shop {
   void create_new_robot_part(Robot_part part) { parts.push_back(part);}
   void create_new_robot_model(Robot_model model) {models.push_back(model);}
   void create_new_customer(Customer cust) {cus.push_back(cust);} 
-  void create_new_sales_associate(Sales_associate sales) {sale.push_back(sales);}
+  void choose_new_sales_associate(Sales_associate sales) {sale.push_back(sales);}
   void create_new_order(Order ord) {ordo.push_back(ord);}
  private:
   //Order order;
@@ -150,7 +150,7 @@ class Controller {
     void create_new_robot_parts();
     void pre_defined_models();	
     void create_order();
-    void create_sales_assoc();
+    void choose_sales_assoc();
     void create_customer();
 
 };
@@ -176,7 +176,7 @@ void Controller::execute() {
   }
 
   else if(choice == 4) {
-   create_sales_assoc();
+   choose_sales_assoc();
   }
 
   else if(choice == 5) {
@@ -190,6 +190,56 @@ void Controller::execute() {
  execute(); //recursion, loop won't repeat print statement
 }
 
+void Controller::create_customer() {
+string name, phone_number, email_address;
+int customer_number = rand() % 100;
+
+cout << "Your customer number is " << customer_number <<".\n\n";
+cout << "What is your full name?";
+getline(cin,name);
+cout << "What is your phone number?";
+getline(cin,phone_number);
+cout << "What is your email address?";
+getline(cin,email_address);
+
+shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
+}
+
+void Controller::choose_sales_assoc() {
+int marvel;
+Sales_associate employ1("Matt Murdock",1);
+Sales_associate employ2("Jessica Jones",2);
+Sales_associate employ3("Luke Cage",3);
+Sales_associate employ4("Danny Rand",4);
+
+cout << "(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n"; 
+cout << "Which sales associate would you like to help you? ";
+cin >> marvel;
+switch(marvel) {
+ case(1):
+  shop.choose_new_sales_associate(employ1);
+  cout << "Successfully Choosen.\n";
+  break;
+ case(2):
+  shop.choose_new_sales_associate(employ2);
+  cout << "Successfully Choosen.\n";
+  break;
+ case(3):
+  shop.choose_new_sales_associate(employ3);
+  cout << "Successfully Choosen.\n";
+  break;
+ case(4):
+  shop.choose_new_sales_associate(employ4);
+  cout << "Successfully Choosen.\n";
+  break;
+ default:
+  cout << "Invalid input.\n";
+  break;
+ }
+}
+void Controller::create_order() {
+
+}
 
 void Controller::pre_defined_models() {
 int choice;
