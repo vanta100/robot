@@ -125,15 +125,18 @@ class Shop {
  public:
   void create_new_robot_part(Robot_part part) { parts.push_back(part);}
   void create_new_robot_model(Robot_model model) {models.push_back(model);}
-  void create_new_customer() ;
-  void create_new_sales_associate();
-  void create_new_order();
+  void create_new_customer(Customer cust) {cus.push_back(cust);} 
+  void create_new_sales_associate(Sales_associate sales) {sale.push_back(sales);}
+  void create_new_order(Order ord) {ordo.push_back(ord);}
  private:
   //Order order;
   //Customer customer;
   //Sales_associate sales_associate;                         
   vector<Robot_part> parts;
   vector<Robot_model> models;
+  vector<Order> ordo;
+  vector<Sales_associate> sale;
+  vector<Customer> cus;
 };
  
   
@@ -146,30 +149,47 @@ class Controller {
     void create_new_robot_model();
     void create_new_robot_parts();
     void pre_defined_models();	
+    void create_order();
+    void create_sales_assoc();
+    void create_customer();
 
 };
 
 void Controller::execute() {
  int choice;
- cout << "What would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "Option: ";
- cin >> choice;
+ cout << "\nWhat would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "(3) Create new customer\n" << "(4) Create new Sales associate\n" << "(5) Create new Order\n" << "(#) insert any other number to quit\n" << "Option: ";
+  cin >> choice;
+  if (choice == 0) {
+   create_new_robot_parts();
+  }
+ 
+  else if(choice == 1) {
+   create_new_robot_model();
+  }
+ 
+  else if(choice == 2) {
+   pre_defined_models();
+  }
 
- if (choice == 0) {
-  create_new_robot_parts();
- }
- 
- else if(choice == 1) {
-  create_new_robot_model();
- }
- 
- else if(choice == 2) {
-  pre_defined_models();
- }
- else {
-  cout << "Invalid input\n" << "Exiting Program...\n";
-  exit(0);
- }
+  else if(choice == 3) {
+   create_customer();
+  }
+
+  else if(choice == 4) {
+   create_sales_assoc();
+  }
+
+  else if(choice == 5) {
+   create_order();
+  }
+
+  else {
+   cout << "Exiting Program...\n";
+   exit(0);
+  }
+ execute(); //recursion, loop won't repeat print statement
 }
+
 
 void Controller::pre_defined_models() {
 int choice;
@@ -209,7 +229,7 @@ else if(choice == 2) {
 Robot_model dbot(head3, torso3, battery3, locomotor3, arm3,"Deluxe bot",3);
 cout << "Successfully Chosen Deluxe bot.\n";
 }
- 
+
 }
 
 void Controller::create_new_robot_parts() {
@@ -220,6 +240,7 @@ string description;
 
 cout << "\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
 cin >> get_out;
+
 while(get_out != 0) {
  cin.ignore(); //consumes \n
 
