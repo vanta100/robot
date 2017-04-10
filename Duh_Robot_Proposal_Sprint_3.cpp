@@ -110,9 +110,8 @@ class Order {
   string date;
   Customer customer;
   Sales_associate sales_associate;
-  int status;
  public:
-  Order(int o_num, string dat, Customer cust, Sales_associate sales, int stat): order_number{o_num}, date{dat}, customer{cust}, sales_associate{sales}, status{stat} {}
+  Order(int o_num, string dat, Customer cust, Sales_associate sales): order_number{o_num}, date{dat}, customer{cust}, sales_associate{sales} {}
   double robot_cost();
 };
   
@@ -237,8 +236,52 @@ switch(marvel) {
   break;
  }
 }
-void Controller::create_order() {
 
+void Controller::create_order() {
+int choice;
+string date,name,phone_number,email_address;
+int order_number = rand() % 1000;
+int customer_number = rand() % 100;
+Customer custom("a",0,"a","a"); //Initializing to change later
+Sales_associate employ("h",0); //Initializing to change later
+cout << "Your order number is " << order_number <<'\n';
+cout << "Enter the current date: ";
+getline(cin,date);
+
+cout << "Your customer number is " << customer_number <<".\n\n"; 
+cout << "What is your full name?";
+getline(cin,name);
+cout << "What is your phone number?";				//////CREATES CUSTOMER FOR ORDER
+getline(cin,phone_number);
+cout << "What is your email address?";
+getline(cin,email_address);
+custom = Customer(name,customer_number,phone_number,email_address);
+
+cout << "(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n"; 
+cout << "Which sales associate would you like to help you? ";	///CHOOSE SALE ASSOCIATE
+cin >> choice;
+switch(choice) {
+ case(1):
+  employ = Sales_associate("Matt Murdock",1);
+  cout << "Successfully Choosen.\n";
+  break;
+ case(2):
+  employ = Sales_associate("Jessica Jones",2);
+  cout << "Successfully Choosen.\n";
+  break;
+ case(3):
+  employ = Sales_associate("Luke Cage",3);
+  cout << "Successfully Choosen.\n";
+  break;
+ case(4):
+  employ = Sales_associate("Danny Rand",4);
+  cout << "Successfully Choosen.\n";
+  break;
+ default:
+  cout << "Invalid input.\n";
+  break;
+ }
+ Order _order(order_number,date,custom,employ);
 }
 
 void Controller::pre_defined_models() {
