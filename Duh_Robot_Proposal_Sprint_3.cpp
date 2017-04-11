@@ -216,11 +216,14 @@ test.close();
 }
 
 void Controller::choose_sales_assoc() {
+ofstream assoc;
 int marvel;
 Sales_associate employ1("Matt Murdock",1);
 Sales_associate employ2("Jessica Jones",2);
 Sales_associate employ3("Luke Cage",3);
 Sales_associate employ4("Danny Rand",4);
+
+assoc.open("Sales Associate");
 
 cout << "(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n"; 
 cout << "Which sales associate would you like to help you? ";
@@ -229,32 +232,41 @@ switch(marvel) {
  case(1):
   shop.choose_new_sales_associate(employ1);
   cout << "You have choosen Matt Murdock.\n";
+  assoc <<"Sales Associate: Matt Murdock.\n";
   break;
  case(2):
   shop.choose_new_sales_associate(employ2);
   cout << "You have choosen Jessica Jones.\n";
+  assoc <<"Sales Associate: Jessica Jones.\n";
   break;
  case(3):
   shop.choose_new_sales_associate(employ3);
   cout << "You have choosen Luke Cage.\n";
+  assoc <<"Sales Associate: Luke Cage.\n";
   break;
  case(4):
   shop.choose_new_sales_associate(employ4);
   cout << "You have choosen Danny Rand.\n";
+  assoc <<"Sales Associate: Danny Rand.\n";
   break;
  default:
-  cout << "Invalid input.\n";
+  cout << "No associate for you! HEHE XD\n";
   break;
  }
+assoc.close();
 }
 
 void Controller::create_order() {
+ofstream order;
 int choice;
 string date,name,phone_number,email_address;
 int order_number = rand() % 1000;
 int customer_number = rand() % 100;
 Customer custom("a",0,"a","a"); //Initializing to change later
 Sales_associate employ("h",0); //Initializing to change later
+
+
+
 cout << "Your order number is " << order_number <<'\n';
 cout << "Enter the current date: ";
 getline(cin,date);
