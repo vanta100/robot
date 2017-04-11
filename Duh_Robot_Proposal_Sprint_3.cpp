@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 class Robot_part {
@@ -158,6 +159,7 @@ void Controller::execute() {
  int choice;
  cout << "\nWhat would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "(3) Create new customer\n" << "(4) Create new Sales associate\n" << "(5) Create new Order\n" << "(#) insert any other number to quit\n" << "Option: ";
   cin >> choice;
+  cin.ignore();
   if (choice == 0) {
    create_new_robot_parts();
   }
@@ -186,22 +188,31 @@ void Controller::execute() {
    cout << "Exiting Program...\n";
    exit(0);
   }
- execute(); //recursion, loop won't repeat print statement
+ execute(); //recursion, while loop won't repeat print statement
 }
 
 void Controller::create_customer() {
+ofstream test;
 string name, phone_number, email_address;
 int customer_number = rand() % 100;
 
+test.open("Customers");
+
 cout << "Your customer number is " << customer_number <<".\n\n";
-cout << "What is your full name?";
+cout << "What is your full name? ";
 getline(cin,name);
-cout << "What is your phone number?";
+cout << "What is your phone number? ";
 getline(cin,phone_number);
-cout << "What is your email address?";
+cout << "What is your email address? ";
 getline(cin,email_address);
 
 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
+
+test <<"Customer number: "<< customer_number << '\n';
+test <<"Customer name: "<< name << '\n';
+test <<"Customer phone number: "<< phone_number << '\n';
+test <<"Customer name: "<< email_address << "\n\n";
+test.close();
 }
 
 void Controller::choose_sales_assoc() {
@@ -217,19 +228,19 @@ cin >> marvel;
 switch(marvel) {
  case(1):
   shop.choose_new_sales_associate(employ1);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Matt Murdock.\n";
   break;
  case(2):
   shop.choose_new_sales_associate(employ2);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Jessica Jones.\n";
   break;
  case(3):
   shop.choose_new_sales_associate(employ3);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Luke Cage.\n";
   break;
  case(4):
   shop.choose_new_sales_associate(employ4);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Danny Rand.\n";
   break;
  default:
   cout << "Invalid input.\n";
@@ -249,11 +260,11 @@ cout << "Enter the current date: ";
 getline(cin,date);
 
 cout << "Your customer number is " << customer_number <<".\n\n"; 
-cout << "What is your full name?";
+cout << "What is your full name? ";
 getline(cin,name);
-cout << "What is your phone number?";				//////CREATES CUSTOMER FOR ORDER
+cout << "What is your phone number? ";				//////CREATES CUSTOMER FOR ORDER
 getline(cin,phone_number);
-cout << "What is your email address?";
+cout << "What is your email address? ";
 getline(cin,email_address);
 custom = Customer(name,customer_number,phone_number,email_address);
 
@@ -263,19 +274,19 @@ cin >> choice;
 switch(choice) {
  case(1):
   employ = Sales_associate("Matt Murdock",1);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Matt Murdock.\n";
   break;
  case(2):
   employ = Sales_associate("Jessica Jones",2);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Jessica Jones.\n";
   break;
  case(3):
   employ = Sales_associate("Luke Cage",3);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Luke Cage.\n";
   break;
  case(4):
   employ = Sales_associate("Danny Rand",4);
-  cout << "Successfully Choosen.\n";
+  cout << "You have choosen Danny Rand.\n";
   break;
  default:
   cout << "Invalid input.\n";
@@ -478,7 +489,7 @@ Arm arm("Arm",1,1.00,"lol",1.0);
 
 
 while(get_out != 0) {
- switch(get_out) {
+ switch(get_out) {			///Switch statement is supposed to go through everything to make robot model.
   case(1): {
    cout << "Enter the desired model number for the head: ";
    cin >> model_number;
