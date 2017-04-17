@@ -291,7 +291,7 @@ assoc.close();
 void Controller::create_order() {
 ofstream order;
 int choice;
-string date,name,phone_number,email_address,convert_cust,customer_num,convert_ord,order_num;
+string date,name,phone_number,email_address,convert_cust,customer_num,convert_ord,order_num,convert;
 int order_number = rand() % 1000;
 int customer_number = rand() % 1000;
 Customer custom("a",0,"a","a"); //Initializing to change later
@@ -332,32 +332,31 @@ order <<"Customer phone number: "<< phone_number << '\n';
 order <<"Customer name: "<< email_address << "\n\n";
 
 
-cout << "(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n"; 
-cout << "Which sales associate would you like to help you? ";	///CHOOSE SALE ASSOCIATE
-cin >> choice;
+convert = fl_input("(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n\nWhich sales associate would you like to help you?");
+choice = std::stoi(convert);
 switch(choice) {
  case(1):
   employ = Sales_associate("Matt Murdock",1);
-  cout << "You have choosen Matt Murdock.\n";
+  fl_message("You have choosen Matt Murdock.");
   order <<"Sales Associate: Matt Murdock.\n\n";
   break;
  case(2):
   employ = Sales_associate("Jessica Jones",2);
-  cout << "You have choosen Jessica Jones.\n";
+  fl_message("Youru have choosen Jessica Jones.");
   order <<"Sales Associate: Jessica Jones.\n\n";
   break;
  case(3):
   employ = Sales_associate("Luke Cage",3);
-  cout << "You have choosen Luke Cage.\n";
+  fl_message("You have choosen Luke Cage.");
   order <<"Sales Associate: Luke Cage.\n\n";
   break;
  case(4):
   employ = Sales_associate("Danny Rand",4);
-  cout << "You have choosen Danny Rand.\n";
+  fl_message("You have choosen Danny Rand.");
   order <<"Sales Associate: Danny Rand.\n\n";
   break;
  default:
-  cout << "No sales associate.\n";
+  fl_message("No sales associate.\n");
   break;
  }
  Order _order(order_number,date,custom,employ);
@@ -367,6 +366,7 @@ switch(choice) {
 void Controller::pre_defined_models() {
 ofstream rbot_model;
 int choice;
+string convert;
 
 rbot_model.open("Robot models", ios::app);
 
@@ -388,12 +388,12 @@ Battery battery3("Deluxe Battery",300,10000.00,"Deluxe bot",500.0,750.0);
 Locomotor locomotor3("Deluxe Locomotor",300,10000.00,"Deluxe bot",500.0);
 Arm arm3("Deluxe Arm",300,10000.00,"Deluxe bot",500.0);
 
-cout << "Which robot would you like?\n(0)Basic Bot\n(1)Advanced Bot\n(2)Deluxe Bot\n";
-cin >> choice;
+convert = fl_input("Which robot would you like?\n(0)Basic Bot\n(1)Advanced Bot\n(2)Deluxe Bot\n");
+choice = std::stoi(convert);
 
 if(choice == 0) {
 Robot_model bbot(head1, torso1, battery1, locomotor1, arm1,"Basic bot",1);
-cout << "Successfully Chosen Basic bot.\n";
+fl_message("Successfully Chosen Basic bot.\n");
 rbot_model << "You chose Basic Bot with these specs and parts:\n";
 rbot_model << "Basic head specs:\n" << "Model Number: 100\n" << "Cost: $100\n" << "Description: basic head part\n" << "Power: 50 Watts\n\n";
 rbot_model << "Basic torso specs:\n" << "Model Number: 100\n" << "Cost: $100\n" << "Description: basic torso part\n" << "Number of battery compartments: 2\n" << "Number of arms: 1\n\n";
@@ -404,7 +404,7 @@ rbot_model << "Basic arm specs:\n" << "Model Number: 100\n" << "Cost: $100\n" <<
 
 else if(choice == 1) {
 Robot_model abot(head2, torso2, battery2, locomotor2, arm2,"Advanced bot",2);
-cout << "Successfully Chosen Advanced bot.\n";
+fl_message("Successfully Chosen Advanced bot.\n");
 rbot_model << "You chose Advanced Bot with these specs and parts:\n";
 rbot_model << "Advanced head specs:\n" << "Model Number: 200\n" << "Cost: $1000\n" << "Description: Advanced head part\n" << "Power: 250 Watts\n\n";
 rbot_model << "Advanced torso specs:\n" << "Model Number: 200\n" << "Cost: $1000\n" << "Description: Advanced torso part\n" << "Number of battery compartments: 5\n" << "Number of arms: 2\n\n";
@@ -415,7 +415,7 @@ rbot_model << "Advanced arm specs:\n" << "Model Number: 200\n" << "Cost: $1000\n
 
 else if(choice == 2) {
 Robot_model dbot(head3, torso3, battery3, locomotor3, arm3,"Deluxe bot",3);
-cout << "Successfully Chosen Deluxe bot.\n";
+fl_message("Successfully Chosen Deluxe bot.\n");
 rbot_model << "You chose Deluxe Bot with these specs and parts:\n";
 rbot_model << "Deluxe head specs:\n" << "Model Number: 300\n" << "Cost: $10000\n" << "Description: Deluxe head part\n" << "Power: 500 Watts\n\n";
 rbot_model << "Deluxe torso specs:\n" << "Model Number: 300\n" << "Cost: $10000\n" << "Description: Deluxe torso part\n" << "Number of battery compartments: 10\n" << "Number of arms: 4\n\n";
@@ -428,18 +428,17 @@ rbot_model.close();
 
 void Controller::create_new_robot_parts() {
 ofstream part;
-string name, input;
+string name, input, menu;
 int model_number, bat_compart, num_arms, get_out; //get_out is to break the loop
 double cost, power,max_energy;
 string description;
 
 part.open("Robot parts", ios::app);
 
-cout << "\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
-cin >> get_out;
+menu = fl_input("\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ");
+get_out = std::stoi(menu);
 
 while(get_out != 0) {
- cin.ignore(); //consumes \n
 
  switch(get_out) {
   case(1): {
