@@ -2,6 +2,13 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <time.h>
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Shared_Image.H>
+#include <FL/Fl_JPEG_Image.H>
+#include <FL/fl_ask.H>
+#include <FL/Fl_Menu_Bar.H>
 using namespace std;
 
 class Robot_part {
@@ -154,8 +161,14 @@ class Controller {
 };
 
 void Controller::execute() {
+string menu,cmd;
+
+   Fl_Window *beacon = new Fl_Window(1,1);
+   beacon->show();
+   beacon->hide();
+
  int choice;
- cout << "\nWhat would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "(3) Create new customer\n" << "(4) Create new Sales associate\n" << "(5) Create new Order\n" << "(#) insert any other number to quit\n" << "Option: ";
+ cout <<"\nWhat would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "(3) Create new customer\n" << "(4) Create new Sales associate\n" << "(5) Create new Order\n" << "(#) insert any other number to quit\n" << "Option: ";
   cin >> choice;
   cin.ignore();
   if (choice == 0) {
@@ -190,11 +203,31 @@ void Controller::execute() {
 }
 
 void Controller::create_customer() {
+srand(time(NULL));
 ofstream test;
-string name, phone_number, email_address;
-int customer_number = rand() % 100;
+ifstream read;
+char check;
+int icheck;
+string name, phone_number, email_address, read_file;
+int customer_number = rand() % 1000;
+/*
+read.open("Customers");
+if(read.is_open()) {  
+  while(read >> check) {
+   cout << check << '\n';
+   if(isdigit(check)) {
+    read.unget();
+    icheck = check;
+    cout << icheck << '\n';
+exit(EXIT_SUCCESS);
+   }
+ }
 
-test.open("Customers");
+read.close();
+
+}
+*/
+test.open("Customers", ios::app);
 
 cout << "Your customer number is " << customer_number <<".\n\n";
 cout << "What is your full name? ";
