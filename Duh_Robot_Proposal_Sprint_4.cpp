@@ -5,9 +5,9 @@
 #include <time.h>
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
-#include <FL/Fl_Shared_Image.H>
-#include <FL/Fl_JPEG_Image.H>
+#include <FL/Fl_Input.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 using namespace std;
 
@@ -168,9 +168,11 @@ string menu,cmd;
    beacon->hide();
 
  int choice;
- cout <<"\nWhat would you like to do?\n\n"<<"(0) Create new robot parts\n" << "(1) Create new robot model\n" << "(2) Choose pre-made bots\n" << "(3) Create new customer\n" << "(4) Create new Sales associate\n" << "(5) Create new Order\n" << "(#) insert any other number to quit\n" << "Option: ";
-  cin >> choice;
-  cin.ignore();
+ menu = "\nWhat would you like to do?\n\n(0) Create new robot parts\n(1) Create new robot model\n(2) Choose pre-made bots\n(3) Create new customer\n(4) Create new Sales associate\n(5) Create new Order\n(#) insert any other number to quit\nOption: ";
+cmd = fl_input(menu.c_str());
+choice = std::stoi(cmd);
+  //cin >> choice;
+  //cin.ignore();
   if (choice == 0) {
    create_new_robot_parts();
   }
@@ -196,7 +198,7 @@ string menu,cmd;
   }
 
   else {
-   cout << "Exiting Program...\n";
+   fl_message("Exiting Program...\n");
    exit(0);
   }
  execute(); //recursion, while loop won't repeat print statement
@@ -207,12 +209,11 @@ srand(time(NULL));
 ofstream test;
 ifstream read;
 char check;
-int icheck;
-string name, phone_number, email_address, read_file;
-int customer_number = rand() % 1000;
+int icheck, customer_number = rand() % 1000;
+string name, phone_number, email_address, read_file, customer_num, convert = to_string(customer_number);
+
 /*
 read.open("Customers");
-if(read.is_open()) {  
   while(read >> check) {
    cout << check << '\n';
    if(isdigit(check)) {
@@ -221,7 +222,7 @@ if(read.is_open()) {
     cout << icheck << '\n';
 exit(EXIT_SUCCESS);
    }
- }
+
 
 read.close();
 
@@ -229,13 +230,13 @@ read.close();
 */
 test.open("Customers", ios::app);
 
-cout << "Your customer number is " << customer_number <<".\n\n";
-cout << "What is your full name? ";
-getline(cin,name);
-cout << "What is your phone number? ";
-getline(cin,phone_number);
-cout << "What is your email address? ";
-getline(cin,email_address);
+customer_num = "Your customer number is " + convert;
+fl_message(customer_num.c_str());
+name = fl_input("What is your full name?");
+
+phone_number = fl_input("What is your phone number?");
+
+email_address = fl_input("What is your email address?");
 
 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
 
@@ -249,39 +250,39 @@ test.close();
 void Controller::choose_sales_assoc() {
 ofstream assoc;
 int marvel;
+string convert;
 Sales_associate employ1("Matt Murdock",1);
 Sales_associate employ2("Jessica Jones",2);
 Sales_associate employ3("Luke Cage",3);
 Sales_associate employ4("Danny Rand",4);
 
-assoc.open("Sales Associate");
+assoc.open("Sales Associate", ios::app);
 
-cout << "(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n"; 
-cout << "Which sales associate would you like to help you? ";
-cin >> marvel;
+convert = fl_input("(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n\nWhich sales associate would you like to help you?");
+marvel = std::stoi(convert);
 switch(marvel) {
  case(1):
   shop.choose_new_sales_associate(employ1);
-  cout << "You have choosen Matt Murdock.\n";
+  fl_message("You have choosen Matt Murdock.\n");
   assoc <<"Sales Associate: Matt Murdock.\n\n";
   break;
  case(2):
   shop.choose_new_sales_associate(employ2);
-  cout << "You have choosen Jessica Jones.\n";
+  fl_message("You have choosen Jessica Jones.\n");
   assoc <<"Sales Associate: Jessica Jones.\n\n";
   break;
  case(3):
   shop.choose_new_sales_associate(employ3);
-  cout << "You have choosen Luke Cage.\n";
+  fl_message("You have choosen Luke Cage.\n");
   assoc <<"Sales Associate: Luke Cage.\n\n";
   break;
  case(4):
   shop.choose_new_sales_associate(employ4);
-  cout << "You have choosen Danny Rand.\n";
+  fl_message("You have choosen Danny Rand.\n");
   assoc <<"Sales Associate: Danny Rand.\n\n";
   break;
  default:
-  cout << "No associate for you! HEHE XD\n";
+  fl_message("No associate for you! HEHE XD\n");
   break;
  }
 assoc.close();
@@ -290,18 +291,31 @@ assoc.close();
 void Controller::create_order() {
 ofstream order;
 int choice;
-string date,name,phone_number,email_address;
+string date,name,phone_number,email_address,convert_cust,customer_num,convert_ord,order_num;
 int order_number = rand() % 1000;
-int customer_number = rand() % 100;
+int customer_number = rand() % 1000;
 Customer custom("a",0,"a","a"); //Initializing to change later
 Sales_associate employ("h",0); //Initializing to change later
 
-order.open("Orders");
+order.open("Orders", ios::app);
 
-cout << "Your order number is " << order_number <<'\n';
-cout << "Enter the current date: ";
-getline(cin,date);
+convert_ord = to_string(order_number);
+order_num = "Your order number is " + convert_ord;
+fl_message(order_num.c_str());
+date = fl_input("Enter the current date:");
 
+convert_cust = to_string(customer_number);
+customer_num = "Your customer number is " + convert_cust;
+fl_message(customer_num.c_str());
+name = fl_input("What is your full name?");
+
+phone_number = fl_input("What is your phone number?");
+
+email_address = fl_input("What is your email address?");
+
+custom = Customer(name,customer_number,phone_number,email_address);
+
+/*
 cout << "Your customer number is " << customer_number <<".\n\n"; 
 cout << "What is your full name? ";
 getline(cin,name);
@@ -310,7 +324,7 @@ getline(cin,phone_number);
 cout << "What is your email address? ";
 getline(cin,email_address);
 custom = Customer(name,customer_number,phone_number,email_address);
-
+*/
 order <<"Order number: "<< order_number << '\n';
 order <<"Customer number: "<< customer_number << '\n';
 order <<"Customer name: "<< name << '\n';
@@ -354,7 +368,7 @@ void Controller::pre_defined_models() {
 ofstream rbot_model;
 int choice;
 
-rbot_model.open("Robot models");
+rbot_model.open("Robot models", ios::app);
 
 Head head1("Basic Head",100,100.00,"basic bot",50.0);
 Torso torso1("Basic Torso",100,100.00,"basic bot",2,1);			
@@ -419,7 +433,7 @@ int model_number, bat_compart, num_arms, get_out; //get_out is to break the loop
 double cost, power,max_energy;
 string description;
 
-part.open("Robot parts");
+part.open("Robot parts", ios::app);
 
 cout << "\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
 cin >> get_out;
@@ -568,7 +582,7 @@ int model_number, bat_compart, num_arms, get_out = 1; //get_out is 1 to get to e
 double cost, power,max_energy;
 string description;
 
-model.open("Robot models");
+model.open("Robot models", ios::app);
 
 Head head("Head",1,1.00,"lol",1.0);
 Torso torso("Torso",1,1.00,"lol",1,1);			///Initialized so no errors arise
