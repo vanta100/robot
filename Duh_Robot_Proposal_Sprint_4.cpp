@@ -428,10 +428,9 @@ rbot_model.close();
 
 void Controller::create_new_robot_parts() {
 ofstream part;
-string name, input, menu;
+string name, input, menu, mod_num, description, pow, numero_arm, max_ener, battery_compart, success;
 int model_number, bat_compart, num_arms, get_out; //get_out is to break the loop
 double cost, power,max_energy;
-string description;
 
 part.open("Robot parts", ios::app);
 
@@ -442,133 +441,120 @@ while(get_out != 0) {
 
  switch(get_out) {
   case(1): {
-   cout << "Enter the name of the head: ";
-   getline(cin,name);
+   name = fl_input("Enter the name of the head: ");
 
-   cout << "Enter the desired model number: ";
-   cin >> model_number;
-   cin.ignore();
+   mod_num = fl_input("Enter the desired model number: ");
 
-   cout << "Enter a description of the part: ";
-   getline(cin,description);
+   model_number = std::stoi(mod_num);
 
-   cout << "How much power do you want your head to have?\n";
-   cin >> power;
-   cin.ignore();
+   description = fl_input("Enter a description of the part: ");
+
+   pow = fl_input("How much power do you want your head to have?\n");
+   power = std::stoi(pow);
    
    cost = 1000;
-   cout << "Cost for all custom heads is $" << cost << " NON-NEGOTIABLE\n";
+   fl_message("Cost for all custom heads is $1000 NON-NEGOTIABLE\n");
    shop.create_new_robot_part(Head(name,model_number,cost,description,power));
-   cout << "Successfully created " << name <<'\n';
+   success = "Successfully created " + name;
+   fl_message(success.c_str());
    part << name <<" head specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: "<< description << '\n' << "Power: " << power << "\n\n";
    break;
    }
   case(2): {
-   cout << "Enter the name of the torso: ";
-   getline(cin,name);
+   name = fl_input("Enter the name of the torso: ");
+   
+   mod_num = fl_input("Enter the desired model number: ");
 
-   cout << "Enter the desired model number: ";
-   cin >> model_number;
-   cin.ignore();
+   model_number = std::stoi(mod_num);
 
-   cout << "Enter a description of the part: ";
-   getline(cin,description);
+   description = fl_input("Enter a description of the part: ");
 
-   cout << "How many arms do you want your robot to have?\n";
-   cin >> num_arms;
-   cin.ignore();
+   numero_arm = fl_input("How many arms do you want your robot to have?\n");
+   num_arms = std::stoi(numero_arm);
+   
 
-   cout << "How many battery compartments do you want your robot to have?\n";
-   cin >> bat_compart;
-   cin.ignore();
+   battery_compart = fl_input("How many battery compartments do you want your robot to have?\n");
+   bat_compart = std::stoi(battery_compart);
+   
 
    cost = 2000;
-   cout << "Cost for all custom torsos is $" << cost << " NON-NEGOTIABLE\n";
+   fl_message("Cost for all custom torsos is $2000 NON-NEGOTIABLE\n");
    shop.create_new_robot_part(Torso(name,model_number,cost,description,bat_compart,num_arms));
-   cout << "Successfully created " << name <<'\n';
+   success = "Successfully created " + name;
+   fl_message(success.c_str());
    part << name << " torso specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: " << cost << '\n' << "Description: "<< description << '\n' << "Number of battery compartments: "<< bat_compart << '\n' << "Number of arms: "<< num_arms <<"\n\n";
    break;
   }
   case(3): {
-   cout << "Enter the name of the battery: ";
-   getline(cin,name);
+   name = fl_input("Enter the name of the battery: ");
 
-   cout << "Enter the desired model number: ";
-   cin >> model_number;
-   cin.ignore();
+   mod_num = fl_input("Enter the desired model number: ");
+   model_number = std::stoi(mod_num);
 
-   cout << "Enter a description of the part: ";
-   getline(cin,description);
+   description = fl_input("Enter a description of the part: ");
 
-   cout << "How much power do you want your battery to have?\n";
-   cin >> power;
-   cin.ignore();
+   pow = fl_input("How much power do you want your battery to have?\n");
+   power = std::stoi(pow);
 
-   cout << "What is the max energy you want to put on your battery?\n";
-   cin >> max_energy;
-   cin.ignore();
+   max_ener = fl_input("What is the max energy you want to put on your battery?\n");
+   max_energy = std::stoi(max_ener);
 
    cost = 1000;
-   cout << "Cost for all custom batteries is $" << cost << " NON-NEGOTIABLE\n";
+   fl_message("Cost for all custom batteries is $1000 each NON-NEGOTIABLE\n");
    shop.create_new_robot_part(Battery(name,model_number,cost,description,power,max_energy));
-   cout << "Successfully created " << name <<'\n';
+   success = "Successfully created " + name;
+   fl_message(success.c_str());
    part << name << " battery specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: " << description << '\n' << "Power: "<< power << '\n' << "Max Energy: "<< max_energy << "\n\n";
    break;
   }
   case(4): {
-   cout << "Enter the name of the locomotor: ";
-   getline(cin,name);
+   name = fl_input("Enter the name of the locomotor: ");
+   
+   mod_num = fl_input("Enter the desired model number: ");
+   model_number = std::stoi(mod_num);
 
-   cout << "Enter the desired model number: ";
-   cin >> model_number;
-   cin.ignore();
+   description = fl_input("Enter a description of the part: ");
 
-   cout << "Enter a description of the part: ";
-   getline(cin,description);
-
-   cout << "What is the max power you want to put on your locomotor?\n";
-   cin >> power;
-   cin.ignore();
+   pow = fl_input("What is the max power you want to put on your locomotor?\n");
+   power = std::stoi(pow);
 
    cost = 3000;
-   cout << "Cost for all custom locomotors is $" << cost << " NON-NEGOTIABLE\n";
+   cout << "Cost for all custom locomotors is $3000 NON-NEGOTIABLE\n";
    shop.create_new_robot_part(Locomotor(name,model_number,cost,description,power));
-   cout << "Successfully created " << name <<'\n';
+   success = "Successfully created " + name;
+   fl_message(success.c_str());
    part << name << " locomotor specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: "<< description << '\n' << "Max power: "<< power << "\n\n";
    break;
    
   }
   case(5): {
-   cout << "Enter the name of the arms: ";
-   getline(cin,name);
+   name = fl_input("Enter the name of the arms: ");
 
-   cout << "Enter the desired model number: ";
-   cin >> model_number;
-   cin.ignore();
+   mod_num = fl_input("Enter the desired model number: ");
+   model_number = std::stoi(mod_num);
 
-   cout << "Enter a description of the part: ";
-   getline(cin,description);
+   description = fl_input("Enter a description of the part: ");
 
-   cout << "What is the max power you want to put on your arms?\n";
-   cin >> power;
-   cin.ignore();
+   pow = fl_input("What is the max power you want to put on your arms?\n");
+   power = std::stoi(pow);
 
    cost = 1000;
-   cout << "Cost for all custom arms is $" << cost << "each NON-NEGOTIABLE\n";
+   cout << "Cost for all custom arms is $1000 each NON-NEGOTIABLE\n";
    shop.create_new_robot_part(Arm(name,model_number,cost,description,power));
-   cout << "Successfully created " << name <<'\n';
+   success = "Successfully created " + name;
+   fl_message(success.c_str());
    part << name << " arm specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: "<< description << '\n' << "Max power: " << power << "\n\n"; 
    break;
    
   }
   default: {
-   cout<<"\nWould you like to continue adding parts?\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
-   cin >> get_out;
+   menu = fl_input("\nWould you like to continue adding parts?\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ");
+   get_out = std::stoi(menu);
    break;
   }
  }
-    cout<<"\nWould you like to continue adding parts?\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ";
-   cin >> get_out;
+   menu = fl_input("\nWould you like to continue adding parts?\n\n(0) quit\n(1) head\n(2) torso\n(3) battery\n(4) locomotor\n(5) arm\nEnter one of the choices: ");
+   get_out = std::stoi(menu);
 }
 part.close();
 //end of loop
