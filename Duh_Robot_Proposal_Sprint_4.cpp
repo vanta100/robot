@@ -135,8 +135,13 @@ class Shop {
   void create_new_customer(Customer cust) {cus.push_back(cust);} 
   void choose_new_sales_associate(Sales_associate sales) {sale.push_back(sales);}
   void create_new_order(Order ord) {ordo.push_back(ord);}
- private:
-                      
+  void push_vector(vector<Robot_part> vec){parts = vec;}
+  void push_vector(vector<Robot_model> vec){models = vec;}
+  void push_vector(vector<Order> vec){ordo = vec;}
+  void push_vector(vector<Sales_associate> vec){sale = vec;}
+  void push_vector(vector<Customer> vec){cus = vec;}
+
+  private:                    
   vector<Robot_part> parts;
   vector<Robot_model> models;
   vector<Order> ordo;
@@ -315,16 +320,6 @@ email_address = fl_input("What is your email address?");
 
 custom = Customer(name,customer_number,phone_number,email_address);
 
-/*
-cout << "Your customer number is " << customer_number <<".\n\n"; 
-cout << "What is your full name? ";
-getline(cin,name);
-cout << "What is your phone number? ";				//////CREATES CUSTOMER FOR ORDER
-getline(cin,phone_number);
-cout << "What is your email address? ";
-getline(cin,email_address);
-custom = Customer(name,customer_number,phone_number,email_address);
-*/
 order <<"Order number: "<< order_number << '\n';
 order <<"Customer number: "<< customer_number << '\n';
 order <<"Customer name: "<< name << '\n';
