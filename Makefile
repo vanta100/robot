@@ -11,8 +11,8 @@ debug: robot
 rebuild: clean robot
 
 
-robot: Duh_Robot_Proposal_Sprint_4.cpp
-	$(CXX) $(CXXFLAGS) $(fltk-config --cxxflags) -o robot Duh_Robot_Proposal_Sprint_4.cpp $(LDFLAGS)
+robot: Duh_Robot_Proposal_Sprint_5.cpp
+	$(CXX) $(CXXFLAGS) $(fltk-config --cxxflags) -o robot Duh_Robot_Proposal_Sprint_5.cpp $(LDFLAGS)
 
 clean:
 	-rm -f *.o robot

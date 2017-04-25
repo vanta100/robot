@@ -9,6 +9,7 @@
 #include <FL/fl_ask.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
+#include <ctype.h>
 using namespace std;
 
 class Robot_part {
@@ -135,11 +136,6 @@ class Shop {
   void create_new_customer(Customer cust) {cus.push_back(cust);} 
   void choose_new_sales_associate(Sales_associate sales) {sale.push_back(sales);}
   void create_new_order(Order ord) {ordo.push_back(ord);}
-  void push_vector(vector<Robot_part> vec){parts = vec;}
-  void push_vector(vector<Robot_model> vec){models = vec;}
-  void push_vector(vector<Order> vec){ordo = vec;}
-  void push_vector(vector<Sales_associate> vec){sale = vec;}
-  void push_vector(vector<Customer> vec){cus = vec;}
 
   private:                    
   vector<Robot_part> parts;
@@ -164,7 +160,6 @@ class Controller {
     void create_customer();
 
 };
-
 void Controller::execute() {
 string menu,cmd;
 
@@ -213,26 +208,32 @@ void Controller::create_customer() {
 srand(time(NULL));
 ofstream test;
 ifstream read;
-char check;
-int icheck, customer_number = rand() % 1000;
-string name, phone_number, email_address, read_file, customer_num, convert = to_string(customer_number);
+int customer_number = rand() % 1000;
+string name, phone_number, email_address, read_file, customer_num, convert = to_string(customer_number), line;
 
-/*
 read.open("Customers");
-  while(read >> check) {
-   cout << check << '\n';
-   if(isdigit(check)) {
-    read.unget();
-    icheck = check;
-    cout << icheck << '\n';
-exit(EXIT_SUCCESS);
-   }
+if(read.is_open()) {
+	for(int i = 0;getline(read,line); i++) {
+		
+		if( i == 0){
+		 customer_number = atoi(line.c_str());
+		}
 
+		else if( i == 1){
+		 name = line;
+		}
 
-read.close();
+		else if( i == 2){
+		 phone_number = line;
+		}
 
+		else if( i == 3){
+		 email_address = line;
+		 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
+		}
+	}
 }
-*/
+read.close();
 test.open("Customers", ios::app);
 
 customer_num = "Your customer number is " + convert;
@@ -245,21 +246,45 @@ email_address = fl_input("What is your email address?");
 
 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
 
-test <<"Customer number: "<< customer_number << '\n';
-test <<"Customer name: "<< name << '\n';
-test <<"Customer phone number: "<< phone_number << '\n';
-test <<"Customer name: "<< email_address << "\n\n";
+test << customer_number << '\n';
+test << name << '\n';
+test << phone_number << '\n';
+test << email_address << "\n\n";
 test.close();
 }
 
 void Controller::choose_sales_assoc() {
+
 ofstream assoc;
+ifstream read;
 int marvel;
-string convert;
+string convert, line;
 Sales_associate employ1("Matt Murdock",1);
 Sales_associate employ2("Jessica Jones",2);
 Sales_associate employ3("Luke Cage",3);
 Sales_associate employ4("Danny Rand",4);
+
+read.open("Sales Associate");
+if(read.is_open()) {
+	while(getline(read,line)) {
+		
+		if( line == "Matt Murdock"){
+		 shop.choose_new_sales_associate(employ1);
+		}
+
+		else if( line == "Jessica Jones"){
+		 shop.choose_new_sales_associate(employ2);		
+		}
+
+		else if( line == "Luke Cage"){
+		 shop.choose_new_sales_associate(employ3);
+		}
+
+		else if( line == "Danny Rand"){
+		 shop.choose_new_sales_associate(employ4);		}
+	}
+}
+read.close();
 
 assoc.open("Sales Associate", ios::app);
 
@@ -269,22 +294,22 @@ switch(marvel) {
  case(1):
   shop.choose_new_sales_associate(employ1);
   fl_message("You have choosen Matt Murdock.\n");
-  assoc <<"Sales Associate: Matt Murdock.\n\n";
+  assoc <<"Matt Murdock.\n\n";
   break;
  case(2):
   shop.choose_new_sales_associate(employ2);
   fl_message("You have choosen Jessica Jones.\n");
-  assoc <<"Sales Associate: Jessica Jones.\n\n";
+  assoc <<"Jessica Jones.\n\n";
   break;
  case(3):
   shop.choose_new_sales_associate(employ3);
   fl_message("You have choosen Luke Cage.\n");
-  assoc <<"Sales Associate: Luke Cage.\n\n";
+  assoc <<"Luke Cage.\n\n";
   break;
  case(4):
   shop.choose_new_sales_associate(employ4);
   fl_message("You have choosen Danny Rand.\n");
-  assoc <<"Sales Associate: Danny Rand.\n\n";
+  assoc <<"Danny Rand.\n\n";
   break;
  default:
   fl_message("No associate for you! HEHE XD\n");
@@ -295,13 +320,72 @@ assoc.close();
 
 void Controller::create_order() {
 ofstream order;
+ifstream read;
 int choice;
-string date,name,phone_number,email_address,convert_cust,customer_num,convert_ord,order_num,convert;
+string date,name,phone_number,email_address,convert_cust,customer_num,convert_ord,order_num,convert,line;
 int order_number = rand() % 1000;
 int customer_number = rand() % 1000;
 Customer custom("a",0,"a","a"); //Initializing to change later
 Sales_associate employ("h",0); //Initializing to change later
 
+read.open("Orders");
+if(read.is_open()) {
+ for(int i = 0;getline(read,line); i++) {
+
+ 	if(i == 0){
+ 	 date = line;	
+ 	}
+
+	else if( i == 1){
+	 order_number = atoi(line.c_str());
+	}
+
+	else if( i == 2){
+	 customer_number = atoi(line.c_str());
+	}
+
+	else if( i == 3){
+	 phone_number = line;
+	}
+
+	else if( i == 4){
+	 name = line;
+	 
+    }
+
+	else if( i == 5){
+	 phone_number = line;
+	}
+
+	else if( i == 6){
+	 email_address = line;
+	 custom = Customer(name,customer_number,phone_number,email_address);
+	}
+
+	else if( i == 7){
+
+	 if (line == "Matt Murdock 1"){
+	 	employ = Sales_associate("Matt Murdock",1);
+	 }
+
+	 else if (line == "Matt Murdock 1"){
+	 	employ = Sales_associate("Matt Murdock",1);
+	 }
+
+	 else if (line == "Matt Murdock 1"){
+	 	employ = Sales_associate("Matt Murdock",1);
+	 }
+
+	 else if (line == "Matt Murdock 1"){
+	 	employ = Sales_associate("Matt Murdock",1);
+	 }
+
+	 Order _order(order_number,date,custom,employ);
+
+    }
+  }
+}
+read.close();
 order.open("Orders", ios::app);
 
 convert_ord = to_string(order_number);
@@ -320,50 +404,56 @@ email_address = fl_input("What is your email address?");
 
 custom = Customer(name,customer_number,phone_number,email_address);
 
-order <<"Order number: "<< order_number << '\n';
-order <<"Customer number: "<< customer_number << '\n';
-order <<"Customer name: "<< name << '\n';
-order <<"Customer phone number: "<< phone_number << '\n';
-order <<"Customer name: "<< email_address << "\n\n";
-
+order << date <<'\n';
+order << order_number << '\n';
+order << customer_number << '\n';
+order << name << '\n';
+order << phone_number << '\n';
+order << email_address << "\n\n";
 
 convert = fl_input("(1) Matt Murdock\n(2) Jessica Jones\n(3) Luke Cage\n(4) Danny Rand\n\nWhich sales associate would you like to help you?");
+
 choice = std::stoi(convert);
 switch(choice) {
  case(1):
   employ = Sales_associate("Matt Murdock",1);
   fl_message("You have choosen Matt Murdock.");
-  order <<"Sales Associate: Matt Murdock.\n\n";
+  order <<"Matt Murdock 1.\n\n";
   break;
  case(2):
   employ = Sales_associate("Jessica Jones",2);
-  fl_message("Youru have choosen Jessica Jones.");
-  order <<"Sales Associate: Jessica Jones.\n\n";
+  fl_message("You have choosen Jessica Jones.");
+  order <<"Jessica Jones 2.\n\n";
   break;
  case(3):
   employ = Sales_associate("Luke Cage",3);
   fl_message("You have choosen Luke Cage.");
-  order <<"Sales Associate: Luke Cage.\n\n";
+  order <<"Luke Cage 3.\n\n";
   break;
  case(4):
   employ = Sales_associate("Danny Rand",4);
   fl_message("You have choosen Danny Rand.");
-  order <<"Sales Associate: Danny Rand.\n\n";
+  order <<"Danny Rand 4.\n\n";
   break;
  default:
   fl_message("No sales associate.\n");
   break;
  }
+
  Order _order(order_number,date,custom,employ);
  order.close();
 }
 
 void Controller::pre_defined_models() {
 ofstream rbot_model;
+ifstream read;
 int choice;
 string convert;
 
-rbot_model.open("Robot models", ios::app);
+read.open("Robot models");
+if(read.is_open()){
+
+}
 
 Head head1("Basic Head",100,100.00,"basic bot",50.0);
 Torso torso1("Basic Torso",100,100.00,"basic bot",2,1);			
@@ -385,6 +475,8 @@ Arm arm3("Deluxe Arm",300,10000.00,"Deluxe bot",500.0);
 
 convert = fl_input("Which robot would you like?\n(0)Basic Bot\n(1)Advanced Bot\n(2)Deluxe Bot\n");
 choice = std::stoi(convert);
+
+rbot_model.open("Robot models", ios::app);
 
 if(choice == 0) {
 Robot_model bbot(head1, torso1, battery1, locomotor1, arm1,"Basic bot",1);
