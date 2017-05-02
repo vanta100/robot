@@ -151,7 +151,7 @@ class Controller {
   private:
    Shop shop;
   public:
-    void execute(); //kind of like a view class
+    void execute(int choice); //kind of like a view class
     void create_new_robot_model();
     void create_new_robot_parts();
     void pre_defined_models();	
@@ -160,17 +160,18 @@ class Controller {
     void create_customer();
 
 };
-void Controller::execute() {
+void Controller::execute(int choice) {
 string menu,cmd;
 
    Fl_Window *beacon = new Fl_Window(1,1);
    beacon->show();
    beacon->hide();
-
+/*
  int choice;
  menu = "\nWhat would you like to do?\n\n(0) Create new robot parts\n(1) Create new robot model\n(2) Choose pre-made bots\n(3) Create new customer\n(4) Create new Sales associate\n(5) Create new Order\n(#) insert any other number to quit\nOption: ";
 cmd = fl_input(menu.c_str());
 choice = std::stoi(cmd);
+*/
   //cin >> choice;
   //cin.ignore();
   if (choice == 0) {
@@ -196,12 +197,7 @@ choice = std::stoi(cmd);
   else if(choice == 5) {
    create_order();
   }
-
-  else {
-   fl_message("Exiting Program...\n");
-   exit(0);
-  }
- execute(); //recursion, while loop won't repeat print statement
+ //execute(); //recursion, while loop won't repeat print statement
 }
 
 void Controller::create_customer() {
@@ -800,6 +796,7 @@ part.close();
 }
 
 void Controller::create_new_robot_model() {
+
 ofstream model;
 ifstream read;
 string name, input, menu, mod_num, description, pow, numero_arm, max_ener, battery_compart, success, line;
@@ -813,55 +810,55 @@ Locomotor locomotor("Locomotor",1,1.00,"lol",1.0);
 Arm arm("Arm",1,1.00,"lol",1.0);
 
 read.open("Robot models");
-
-for(int g = 0;getline(read,line); g++){
- if (g == 0)
- {
-  for(int i=0; getline(read,line); i++){
-   if (i == 0)
-   {
-    name = line;
+while(read.is_open()){
+ for(int g = 0;getline(read,line); g++){
+  if (g == 0)
+  {
+   for(int i=0; getline(read,line); i++){
+    if (i == 0)
+    {
+     name = line;
+    }
+    else if (i == 1){
+     model_number = atoi(line.c_str());
+    }
+    else if (i == 2){
+     cost = atoi(line.c_str());
+    }
+    else if (i == 3){
+     description = line;
+    }
+    else if(i == 4){
+  	 power = atoi(line.c_str());
+    }
    }
-   else if (i == 1){
-    model_number = atoi(line.c_str());
-   }
-   else if (i == 2){
-    cost = atoi(line.c_str());
-   }
-   else if (i == 3){
-    description = line;
-   }
-   else if(i == 4){
-  	power = atoi(line.c_str());
-   }
+   head = Head(name,model_number,cost,description,power);
   }
-  shop.create_new_robot_part(Head(name,model_number,cost,description,power));
- }
 
- else if (g == 1 ){
+    else if (g == 1 ){
 
-  for(int i=0; getline(read,line); i++){
-   if (i == 0)
-   {
-    name = line;
+    for(int i=0; getline(read,line); i++){
+     if (i == 0)
+     {
+      name = line;
+     }
+     else if (i == 1){
+      model_number = atoi(line.c_str());
+     }
+     else if (i == 2){
+      cost = atoi(line.c_str());
+     }
+     else if (i == 3){
+      description = line;
+     }
+     else if(i == 4){
+  	  bat_compart = atoi(line.c_str());
+     }
+     else if(i == 5){
+   	  num_arms = atoi(line.c_str());
+     }
    }
-   else if (i == 1){
-    model_number = atoi(line.c_str());
-   }
-   else if (i == 2){
-    cost = atoi(line.c_str());
-   }
-   else if (i == 3){
-    description = line;
-   }
-   else if(i == 4){
-  	bat_compart = atoi(line.c_str());
-   }
-   else if(i == 5){
-   	num_arms = atoi(line.c_str());
-   }
-  }
-  shop.create_new_robot_part(Torso(name,model_number,cost,description,bat_compart,num_arms));
+  torso = Torso(name,model_number,cost,description,bat_compart,num_arms);
  }
 
   else if (g == 2){
@@ -887,7 +884,8 @@ for(int g = 0;getline(read,line); g++){
    	max_energy = atoi(line.c_str());
    }
   }
-  shop.create_new_robot_part(Battery(name,model_number,cost,description,power,max_energy));
+
+  battery = Battery(name,model_number,cost,description,power,max_energy);
  }
 
   else if (g == 3){
@@ -910,7 +908,7 @@ for(int g = 0;getline(read,line); g++){
   	power = atoi(line.c_str());
    }
   }
-  shop.create_new_robot_part(Locomotor(name,model_number,cost,description,power));
+  locomotor = Locomotor(name,model_number,cost,description,power);
  }
 
   else if (g == 4){
@@ -933,9 +931,12 @@ for(int g = 0;getline(read,line); g++){
   	power = atoi(line.c_str());
    }
   }
-  shop.create_new_robot_part(Arm(name,model_number,cost,description,power));
+  arm = Arm(name,model_number,cost,description,power);
  }
-
+   Robot_model robot_model(head, torso, battery, locomotor, arm,name,model_number);
+   shop.create_new_robot_model(robot_model);
+ }
+ read.close();
 }
 
 model.open("Robot models", ios::app);
@@ -957,7 +958,6 @@ while(get_out != 0) {
    
    cost = 1000;
    fl_message("Cost for all custom heads is $1000 NON-NEGOTIABLE\n");
-   shop.create_new_robot_part(Head(name,model_number,cost,description,power));
    head = Head(name,model_number,cost,description,power);
    success = "Successfully created " + name;
    model << name <<" head specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: "<< description << '\n' << "Power: " << power << "\n\n";
@@ -981,7 +981,6 @@ while(get_out != 0) {
 
    cost = 2000;
    fl_message("Cost for all custom torsos is $2000 NON-NEGOTIABLE\n");
-   shop.create_new_robot_part(Torso(name,model_number,cost,description,bat_compart,num_arms));
    torso = Torso(name,model_number,cost,description,bat_compart,num_arms);
    success = "Successfully created " + name;
    fl_message(success.c_str());
@@ -1003,7 +1002,7 @@ while(get_out != 0) {
 
    cost = 1000;
    fl_message("Cost for all custom batteries is $1000 each NON-NEGOTIABLE\n");
-   shop.create_new_robot_part(Battery(name,model_number,cost,description,power,max_energy));
+   battery = Battery(name,model_number,cost,description,power,max_energy);
    success = "Successfully created " + name;
    fl_message(success.c_str());
    model << name << " battery specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: " << description << '\n' << "Power: "<< power << '\n' << "Max Energy: "<< max_energy << "\n\n";
@@ -1021,7 +1020,7 @@ while(get_out != 0) {
 
    cost = 3000;
    fl_message("Cost for all custom locomotors is $3000 NON-NEGOTIABLE\n");
-   shop.create_new_robot_part(Locomotor(name,model_number,cost,description,power));
+   locomotor = Locomotor(name,model_number,cost,description,power);
    success = "Successfully created " + name;
    fl_message(success.c_str());
    model << name << " locomotor specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: "<< description << '\n' << "Max power: "<< power << "\n\n";
@@ -1039,7 +1038,7 @@ while(get_out != 0) {
 
    cost = 1000;
    fl_message("Cost for all custom arms is $1000 each NON-NEGOTIABLE\n");
-   shop.create_new_robot_part(Arm(name,model_number,cost,description,power));
+   arm = Arm(name,model_number,cost,description,power);
    success = "Successfully created " + name;
    fl_message(success.c_str());
    model << name << " arm specs:\n" << "Model Number: "<< model_number << '\n' << "Cost: "<< cost << '\n' << "Description: "<< description << '\n' << "Max power: " << power << "\n\n"; 
@@ -1064,9 +1063,82 @@ while(get_out != 0) {
 model.close();
 }
 
+//WIDGETS
+Fl_Window *win;
+Fl_Menu_Bar *menubar;
+
+//CALLBACKS
+void quitCB(Fl_Widget* w, void* p) {win->hide();}
+
+void create_robot_partsCB(Fl_Widget* w, void* p) {
+ Controller controller;
+ controller.execute(0);
+}
+
+void create_robot_modelCB(Fl_Widget* w, void* p) {
+ Controller controller;
+ controller.execute(1);
+}
+
+void create_pre_defined_modelCB(Fl_Widget* w, void* p) {
+ Controller controller;
+ controller.execute(2);
+}
+void create_customerCB(Fl_Widget* w, void* p) {
+ Controller controller;
+ controller.execute(3);
+}
+
+void choose_sales_associateCB(Fl_Widget* w, void* p) {
+ Controller controller;
+ controller.execute(4);
+}
+
+void create_orderCB(Fl_Widget* w, void* p) {
+ Controller controller;
+ controller.execute(5);
+}
+
+//MENU
+
+Fl_Menu_Item menuitems[] = {
+  { "&File",0,0,0,FL_SUBMENU },
+   {"&Quit", FL_CTRL + 'q', (Fl_Callback*)quitCB},
+   {0},
+
+  { "&Robot",0,0,0,FL_SUBMENU },
+   {"Create Robot Parts", 0, (Fl_Callback*)create_robot_partsCB},
+   {"Create Robot Model", 0, (Fl_Callback*)create_robot_modelCB},
+   {"Create Pre-Defined Model", 0, (Fl_Callback*)create_pre_defined_modelCB},
+   {0},
+
+  { "&Customer Information",0,0,0,FL_SUBMENU },
+   {"Add Customer", 0, (Fl_Callback*)create_customerCB},
+   {"Choose sales associate", 0, (Fl_Callback*)choose_sales_associateCB},
+   {0},
+
+  { "&Order",0,0,0,FL_SUBMENU },
+   {"order", 0, (Fl_Callback*)create_orderCB},
+   {0},  
+
+  {0}
+};
+
 int main() {
-Controller controller;
-controller.execute();
+
+  const int w = 360;
+  const int h = 220;
+ 
+  win = new Fl_Window{w,h,"Duh Robot Proposal"};
+  win->color(FL_WHITE);
+
+  menubar = new Fl_Menu_Bar(0, 0, w, 30);
+  menubar->menu(menuitems);
+
+  win->end();
+  win->show(); 
+  
+  return(Fl::run()); 
 }
 
 
