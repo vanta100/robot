@@ -207,28 +207,28 @@ ifstream read;
 int customer_number = rand() % 1000;
 string name, phone_number, email_address, read_file, customer_num, convert = to_string(customer_number), line;
 
-read.open("Customers");
-if(read.is_open()) {
-	for(int i = 0;getline(read,line); i++) {
+// read.open("Customers");
+// if(read.is_open()) {
+// 	for(int i = 0;getline(read,line); i++) {
 		
-		if( i == 0){
-		 customer_number = atoi(line.c_str());
-		}
+// 		if( i == 0){
+// 		 customer_number = atoi(line.c_str());
+// 		}
 
-		else if( i == 1){
-		 name = line;
-		}
+// 		else if( i == 1){
+// 		 name = line;
+// 		}
 
-		else if( i == 2){
-		 phone_number = line;
-		}
+// 		else if( i == 2){
+// 		 phone_number = line;
+// 		}
 
-		else if( i == 3){
-		 email_address = line;
-		 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
-		}
-	}
-}
+// 		else if( i == 3){
+// 		 email_address = line;
+// 		 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
+// 		}
+// 	}
+// } This is pointless dont know why I did this
 read.close();
 test.open("Customers", ios::app);
 
