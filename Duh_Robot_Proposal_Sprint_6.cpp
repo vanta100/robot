@@ -228,7 +228,7 @@ string name, phone_number, email_address, read_file, customer_num, convert = to_
 // 		 shop.create_new_customer(Customer(name,customer_number,phone_number,email_address));
 // 		}
 // 	}
-// } This is pointless dont know why I did this
+// } This is actually if customer is needed to be accessed this code needs further attention
 read.close();
 test.open("Customers", ios::app);
 
